@@ -832,7 +832,7 @@ class ViewMenu(_BaseMenu):
                     self.add_button(item)
                 elif isinstance(item, ViewSelect.GoTo):
                     self.add_go_to_select(item)
-            
+            await self._msg.edit(view=self.__view)
     
     def remove_button(self, button: ViewButton) -> None:
         """Remove a button from the menu
