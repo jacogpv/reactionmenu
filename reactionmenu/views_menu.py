@@ -1222,7 +1222,7 @@ class ViewMenu(_BaseMenu):
 						try:
 						    await self._msg.edit(view=self.__view)
 						except discord.NotFound:
-						    # A mensagem não existe mais, então não há o que editar
+						    # A mensagem pode ter sido deletada antes do timeout, evitando erro 404
 						    return
                     
                     if remove_items and not already_disabled:
@@ -1233,7 +1233,7 @@ class ViewMenu(_BaseMenu):
 						try:
 						    await self._msg.edit(view=self.__view)
 						except discord.NotFound:
-						    # A mensagem não existe mais, então não há o que editar
+						    # A mensagem pode ter sido deletada antes do timeout, evitando erro 404
 						    return
             
             except discord.DiscordException as dpy_error:
