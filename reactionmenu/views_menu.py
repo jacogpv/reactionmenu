@@ -832,7 +832,7 @@ class ViewMenu(_BaseMenu):
                     self.add_button(item)
                 elif isinstance(item, ViewSelect.GoTo):
                     self.add_go_to_select(item)
-            await self._msg.edit(view=self.__view)
+            
     
     def remove_button(self, button: ViewButton) -> None:
         """Remove a button from the menu
@@ -1206,11 +1206,11 @@ class ViewMenu(_BaseMenu):
             self._stop_initiated = True
             try:
                 if delete_menu_message:
-					try:
-                    	await self._msg.delete()
-					except discord.NotFound:
-				        # A mensagem já foi deletada ou não existe
-				        return
+                    try:
+                        await self._msg.delete()
+                    except discord.NotFound:
+                        # A mensagem já foi deletada ou não existe
+                        return
                 else:
                     already_disabled = False
                     if disable_items:
@@ -1219,22 +1219,22 @@ class ViewMenu(_BaseMenu):
                         self.disable_all_go_to_selects()
                         already_disabled = True
                         # Se não deletou, tenta editar
-						try:
-						    await self._msg.edit(view=self.__view)
-						except discord.NotFound:
-						    # A mensagem pode ter sido deletada antes do timeout, evitando erro 404
-						    return
+                        try:
+                            await self._msg.edit(view=self.__view)
+                        except discord.NotFound:
+                            # A mensagem pode ter sido deletada antes do timeout, evitando erro 404
+                            return
                     
                     if remove_items and not already_disabled:
                         self.remove_all_buttons()
                         self.remove_all_selects()
                         self.remove_all_go_to_selects()
                         # Se não deletou, tenta editar
-						try:
-						    await self._msg.edit(view=self.__view)
-						except discord.NotFound:
-						    # A mensagem pode ter sido deletada antes do timeout, evitando erro 404
-						    return
+                        try:
+                            await self._msg.edit(view=self.__view)
+                        except discord.NotFound:
+                            # A mensagem pode ter sido deletada antes do timeout, evitando erro 404
+                            return
             
             except discord.DiscordException as dpy_error:
                 raise dpy_error
