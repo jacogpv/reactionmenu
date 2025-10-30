@@ -1206,7 +1206,11 @@ class ViewMenu(_BaseMenu):
             self._stop_initiated = True
             try:
                 if delete_menu_message:
-                    await self._msg.delete()
+					try:
+                    	await self._msg.delete()
+					except discord.NotFound:
+				        # A mensagem já foi deletada ou não existe
+				        return
                 else:
                     already_disabled = False
                     if disable_items:
@@ -1214,13 +1218,23 @@ class ViewMenu(_BaseMenu):
                         self.disable_all_selects()
                         self.disable_all_go_to_selects()
                         already_disabled = True
-                        await self._msg.edit(view=self.__view)
+                        # Se não deletou, tenta editar
+						try:
+						    await self._msg.edit(view=self.__view)
+						except discord.NotFound:
+						    # A mensagem não existe mais, então não há o que editar
+						    return
                     
                     if remove_items and not already_disabled:
                         self.remove_all_buttons()
                         self.remove_all_selects()
                         self.remove_all_go_to_selects()
-                        await self._msg.edit(view=self.__view)
+                        # Se não deletou, tenta editar
+						try:
+						    await self._msg.edit(view=self.__view)
+						except discord.NotFound:
+						    # A mensagem não existe mais, então não há o que editar
+						    return
             
             except discord.DiscordException as dpy_error:
                 raise dpy_error
